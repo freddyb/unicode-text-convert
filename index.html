@@ -1,5 +1,14 @@
-<meta charset="utf-8">
-<style>* { font-size: 2.5vh; }</style><!-- font-size increases with window -->
+<!doctype html>
+<html><head>
+  <title>easy 𝓐𝕭𝙲 — A simple unicode text converter app</title>
+  <meta charset="utf-8">
+  <!-- font-size increases with window -->
+  <style>* { font-size: 2.5vh; }</style>
+
+  <link rel="icon" type="image/png" href="img/icon196x196.png">
+  <link rel="apple-touch-icon" href="img/icon180x180.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="apple-mobile-web-app-title" content="easy ABC">
 </head><body>
 <form style="display: flex;">
   <input onkeyup="handleKey(this)" autofocus="" style="width: 100%" placeholder="Enter text…" type="text">
@@ -42,7 +51,7 @@ let blocknames = ["Fullwidth",
  "Regional Indicator",
  "Squared",
  "Squared (neg)"];
- 
+
 let upper = `ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
 𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙
 𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅
@@ -89,7 +98,9 @@ function convert(inputText, i) {
   let output = '';
   for (let letter of Array.from(inputText)) {
     output += convertChar(letter, i);
-    if (i == 13) { output += "\u200B" } // zero-width space to prevent country flags show up as ligatures
+     // insert zero-width space to prevent country flag ligatures
+     // (e.g., [F][R] would become the French flag)
+    if (i == 13) { output += "\u200B" }
   }
   return output;
 }
