@@ -1,12 +1,15 @@
 <meta charset="utf-8">
 <style>* { font-size: 2.5vh; }</style><!-- font-size increases with window -->
 </head><body>
-<input type="text" onkeyup="handleKey(this)" autofocus><br>
+<form style="display: flex;">
+  <input onkeyup="handleKey(this)" autofocus="" style="width: 100%" placeholder="Enter text…" type="text">
+  <input value="Fix &#xFFFD;" id="btn" title="Click here to fix display errors (your device seems to be missing some fonts)" type="button" onclick="fontFix()">
+</form>
 <div id="results"></div>
 <script>
 
 //////////////////// constant definitions //////////////////////////////
-  
+
 let lower = `ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ
 𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳
 𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟
@@ -89,6 +92,14 @@ function convert(inputText, i) {
     if (i == 13) { output += "\u200B" } // zero-width space to prevent country flags show up as ligatures
   }
   return output;
+}
+function fontFix() { // XXX extend unicode-range if adding
+        let sheet = `@font-face {
+                 unicode-range: U+1D400-U+1D6A3;
+                 url('https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-svg.woff') format('woff');
+                 font-family "Emoji One"; }; p { font-family: 'Emoji One' }`
+ let style = document.querySelector("style");
+ style.innerText += sheet;
 }
 //////////////////// DOM and input shit ////////////////////////////////
 function handleKey(input) {
